@@ -6,7 +6,7 @@ type taskObject = {
 
 }
 
-type todoObject = {
+export type todoObject = {
     id: number
     done: boolean
     description: string

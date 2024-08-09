@@ -1,7 +1,19 @@
 <script lang="ts">
+	import { createTodoStore } from '$lib/todos';
+	import TodoList from './TodoList.svelte';
+
 	function focusOnMount(node: HTMLElement) {
 		node.focus();
 	}
+
+	const todos = createTodoStore([
+		{ done: false, description: 'write some docs' },
+		{ done: false, description: 'start writing blog post' },
+		{ done: true, description: 'buy some milk' },
+		{ done: false, description: 'mow the lawn' },
+		{ done: false, description: 'feed the turtle' },
+		{ done: false, description: 'fix some bugs' }
+	]);
 </script>
 
 <section class=" mt-7 w-10/12 mx-auto flex justify-center">
@@ -15,8 +27,14 @@
 			placeholder="What needs to be accomplished?"
 			on:keydown={(e) => {
 				if (e.key !== 'Enter') return;
+				todos.add(e.currentTarget.value);
+				e.currentTarget.value = '';
 			}}
 		/>
+
+		<section>
+			<TodoList tasks={todos} done={false} />
+		</section>
 	</section>
 </section>
 
