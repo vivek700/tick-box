@@ -6,17 +6,10 @@
 		node.focus();
 	}
 
-	const todos = createTodoStore([
-		{ done: false, description: 'write some docs' },
-		{ done: false, description: 'start writing blog post' },
-		{ done: true, description: 'buy some milk' },
-		{ done: false, description: 'mow the lawn' },
-		{ done: false, description: 'feed the turtle' },
-		{ done: false, description: 'fix some bugs' }
-	]);
+	const todos = createTodoStore([{ done: false, description: 'write some docs' }]);
 </script>
 
-<section class=" mt-7 w-10/12 mx-auto flex justify-center">
+<section class=" mt-7 md:w-8/12 w-11/12 mx-auto flex justify-center">
 	<section class="w-full max-w-3xl">
 		<input
 			use:focusOnMount
@@ -31,9 +24,15 @@
 				e.currentTarget.value = '';
 			}}
 		/>
-
-		<section>
-			<TodoList tasks={todos} done={false} />
+		<section class=" text-gray-300 grid grid-cols-2 gap-4">
+			<section>
+				<h2 class="my-3 text-3xl text-gray-200">todo</h2>
+				<TodoList tasks={todos} done={false} />
+			</section>
+			<section>
+				<h2 class="my-3 text-3xl text-gray-200">done</h2>
+				<TodoList tasks={todos} done={true} />
+			</section>
 		</section>
 	</section>
 </section>
