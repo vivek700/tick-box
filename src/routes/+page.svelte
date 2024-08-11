@@ -1,12 +1,15 @@
 <script lang="ts">
 	import { createTodoStore } from '$lib/todos';
+	import { onMount } from 'svelte';
 	import TodoList from './TodoList.svelte';
 
 	function focusOnMount(node: HTMLElement) {
 		node.focus();
 	}
 
-	const todos = createTodoStore([{ done: false, description: 'write some docs' }]);
+	const todos = createTodoStore([
+		{ done: false, description: "Let's do something meaningful today." }
+	]);
 </script>
 
 <section class=" mt-7 md:w-8/12 w-11/12 mx-auto flex justify-center">

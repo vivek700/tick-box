@@ -12,7 +12,6 @@ export type todoObject = {
     description: string
 }
 
-
 export function createTodoStore(initial: taskObject[]) {
     let uid = 1
 
@@ -24,7 +23,29 @@ export function createTodoStore(initial: taskObject[]) {
         }
     })
 
+
     const { subscribe, update } = writable<todoObject[]>(todos)
+
+    function saveToLocalStorage(todo: todoObject) {
+
+        const rawData = localStorage.getItem('todos')
+        if (!rawData) {
+            localStorage.setItem(
+                'todos',
+                JSON.stringify(todos)
+            );
+            return
+        }
+        const tasks = JSON.parse(rawData)
+        console.log(tasks)
+        tasks.push(todo)
+        localStorage.setItem(
+            'todos',
+            JSON.stringify(tasks)
+        );
+
+    }
+
 
     return {
         subscribe,
@@ -35,14 +56,18 @@ export function createTodoStore(initial: taskObject[]) {
                 description
             }
             update($todos => [...$todos, todo])
+            saveToLocalStorage(todo)
+
         },
         remove: (todo: todoObject) => {
             update($todos => $todos.filter((t) => t !== todo))
+            saveToLocalStorage(todo)
         },
         mark: (todo: todoObject, done: boolean) => {
             update($todos => [...$todos.filter((t) => t !== todo),
             { ...todo, done }
             ])
+            saveToLocalStorage(todo)
         }
 
     }
