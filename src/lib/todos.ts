@@ -7,7 +7,7 @@ type taskObject = {
 }
 
 export type todoObject = {
-    id: number
+    id?: number
     done: boolean
     description: string
 }
@@ -15,6 +15,13 @@ export type todoObject = {
 export function createTodoStore(initial: taskObject[]) {
     let uid = 1
 
+    function saveToLocalStorage(todos: todoObject[]) {
+        localStorage.setItem(
+            'todos',
+            JSON.stringify(todos)
+        );
+
+    }
     const todos: todoObject[] = initial.map(({ done, description }: { done: boolean, description: string }) => {
         return {
             id: uid++,
@@ -26,25 +33,6 @@ export function createTodoStore(initial: taskObject[]) {
 
     const { subscribe, update } = writable<todoObject[]>(todos)
 
-    function saveToLocalStorage(todo: todoObject) {
-
-        const rawData = localStorage.getItem('todos')
-        if (!rawData) {
-            localStorage.setItem(
-                'todos',
-                JSON.stringify(todos)
-            );
-            return
-        }
-        const tasks = JSON.parse(rawData)
-        console.log(tasks)
-        tasks.push(todo)
-        localStorage.setItem(
-            'todos',
-            JSON.stringify(tasks)
-        );
-
-    }
 
 
     return {
@@ -55,19 +43,29 @@ export function createTodoStore(initial: taskObject[]) {
                 done: false,
                 description
             }
-            update($todos => [...$todos, todo])
-            saveToLocalStorage(todo)
+            update($todos => {
+                saveToLocalStorage([...$todos, todo])
+                return [...$todos, todo]
+            })
 
         },
         remove: (todo: todoObject) => {
-            update($todos => $todos.filter((t) => t !== todo))
-            saveToLocalStorage(todo)
+            update($todos => {
+                const filterdArray = $todos.filter((t) => t !== todo)
+                saveToLocalStorage(filterdArray)
+                return filterdArray
+            })
+
         },
         mark: (todo: todoObject, done: boolean) => {
-            update($todos => [...$todos.filter((t) => t !== todo),
-            { ...todo, done }
-            ])
-            saveToLocalStorage(todo)
+            update($todos => {
+                const tempArray = [...$todos.filter((t) => t !== todo),
+                { ...todo, done }
+                ]
+                saveToLocalStorage(tempArray)
+                return tempArray
+            })
+
         }
 
     }

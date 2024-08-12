@@ -14,7 +14,7 @@
 			out:send={{ key: todo.id }}
 			animate:flip={{ duration: 200 }}
 		>
-			<label class="bg-slate-800/35 my-2 w-full p-4 rounded flex items-center gap-2">
+			<label class="bg-slate-800/35 my-2 w-full p-4 rounded flex items-center gap-3">
 				<input
 					type="checkbox"
 					checked={todo.done}

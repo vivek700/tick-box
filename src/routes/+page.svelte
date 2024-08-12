@@ -1,15 +1,32 @@
 <script lang="ts">
-	import { createTodoStore } from '$lib/todos';
+	import { createTodoStore, type todoObject } from '$lib/todos';
 	import { onMount } from 'svelte';
 	import TodoList from './TodoList.svelte';
 
 	function focusOnMount(node: HTMLElement) {
 		node.focus();
 	}
+	let tasks: todoObject[] = [];
 
-	const todos = createTodoStore([
-		{ done: false, description: "Let's do something meaningful today." }
-	]);
+	function getLocalStorageData() {
+		console.log('mounted');
+		const rawData = localStorage.getItem('todos');
+		if (!rawData) {
+			tasks = [{ done: false, description: "Let's do something meaningful today." }];
+			localStorage.setItem('todos', JSON.stringify(tasks));
+			return;
+		}
+		tasks = JSON.parse(rawData);
+		if (tasks.length === 0) {
+			tasks = [{ done: false, description: "Let's do something meaningful today." }];
+			localStorage.setItem('todos', JSON.stringify(tasks));
+		}
+	}
+
+	onMount(getLocalStorageData);
+
+	let todos: ReturnType<typeof createTodoStore>;
+	$: todos = createTodoStore(tasks);
 </script>
 
 <section class=" mt-7 md:w-8/12 w-11/12 mx-auto flex justify-center">
