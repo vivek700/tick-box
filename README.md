@@ -1,38 +1,54 @@
-# create-svelte
+# To-Do List App
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/main/packages/create-svelte).
+A simple and user-friendly To-Do List application built with Svelte, designed to help you manage your tasks efficiently.
 
-## Creating a project
+## Features
 
-If you're seeing this, you've probably already done this step. Congrats!
+- Add Tasks: Quickly add new tasks to your to-do list.
+- Delete: Remove tasks as needed.
+- Mark as Completed: Easily mark tasks as completed with a single click.
+- Persistent Storage: Tasks are saved in local storage and persist across sessions.
+
+## Getting Started
+
+### Prerequisites
+
+Make sure you have [Node.js](https://nodejs.org/en) and [npm](https://www.npmjs.com/) installed on your machine.
+
+### Installation
+
+1. Clone the repository:
 
 ```bash
-# create a new project in the current directory
-npm create svelte@latest
-
-# create a new project in my-app
-npm create svelte@latest my-app
+git clone https://github.com/vivek700/tick-box.git
+cd tick-box
 ```
 
-## Developing
+2. Install the dependencies:
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+```bash
+npm install
+
+```
+
+### Running the Project
+
+Start the development server:
 
 ```bash
 npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
 ```
 
-## Building
+## Usage
 
-To create a production version of your app:
+- Adding Tasks: Use the input field to add a new task.
+- Deleting Tasks: Use the delete button to remove a task from the list.
+- Task Status: Click the checkbox to mark a task as completed.
 
-```bash
-npm run build
-```
+## Built With
 
-You can preview the production build with `npm run preview`.
+- [Svelte](https://svelte.dev/) - The web framework used
 
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+# Acknowledgments
+
+- Thanks to the creators of Svelte, and Marked for their awesome libraries.

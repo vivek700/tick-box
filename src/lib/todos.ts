@@ -1,39 +1,33 @@
-import { writable } from "svelte/store";
+import { writable } from 'svelte/store';
 
 type taskObject = {
-    done: boolean
-    description: string
-
-}
+    done: boolean;
+    description: string;
+};
 
 export type todoObject = {
-    id?: number
-    done: boolean
-    description: string
-}
+    id?: number;
+    done: boolean;
+    description: string;
+};
 
 export function createTodoStore(initial: taskObject[]) {
-    let uid = 1
+    let uid = 1;
 
     function saveToLocalStorage(todos: todoObject[]) {
-        localStorage.setItem(
-            'todos',
-            JSON.stringify(todos)
-        );
-
+        localStorage.setItem('todos', JSON.stringify(todos));
     }
-    const todos: todoObject[] = initial.map(({ done, description }: { done: boolean, description: string }) => {
-        return {
-            id: uid++,
-            done,
-            description
+    const todos: todoObject[] = initial.map(
+        ({ done, description }: { done: boolean; description: string }) => {
+            return {
+                id: uid++,
+                done,
+                description
+            };
         }
-    })
+    );
 
-
-    const { subscribe, update } = writable<todoObject[]>(todos)
-
-
+    const { subscribe, update } = writable<todoObject[]>(todos);
 
     return {
         subscribe,
@@ -42,31 +36,25 @@ export function createTodoStore(initial: taskObject[]) {
                 id: uid++,
                 done: false,
                 description
-            }
-            update($todos => {
-                saveToLocalStorage([...$todos, todo])
-                return [...$todos, todo]
-            })
-
+            };
+            update(($todos) => {
+                saveToLocalStorage([...$todos, todo]);
+                return [...$todos, todo];
+            });
         },
         remove: (todo: todoObject) => {
-            update($todos => {
-                const filterdArray = $todos.filter((t) => t !== todo)
-                saveToLocalStorage(filterdArray)
-                return filterdArray
-            })
-
+            update(($todos) => {
+                const filterdArray = $todos.filter((t) => t !== todo);
+                saveToLocalStorage(filterdArray);
+                return filterdArray;
+            });
         },
         mark: (todo: todoObject, done: boolean) => {
-            update($todos => {
-                const tempArray = [...$todos.filter((t) => t !== todo),
-                { ...todo, done }
-                ]
-                saveToLocalStorage(tempArray)
-                return tempArray
-            })
-
+            update(($todos) => {
+                const tempArray = [...$todos.filter((t) => t !== todo), { ...todo, done }];
+                saveToLocalStorage(tempArray);
+                return tempArray;
+            });
         }
-
-    }
+    };
 }

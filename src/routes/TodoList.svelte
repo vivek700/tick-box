@@ -1,8 +1,9 @@
-<script>
+<script lang="ts">
 	import { flip } from 'svelte/animate';
 	import { send, receive } from '$lib/transition';
 
 	export let tasks;
+
 	export let done;
 </script>
 
