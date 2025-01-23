@@ -6,7 +6,7 @@
 </script>
 
 <ul>
-	{#each $tasks.filter((todo) => todo.done === done) as todo (todo.id)}
+	{#each $tasks.filter((todo: any) => todo.done === done) as todo (todo.id)}
 		<li
 			class:done
 			in:receive={{ key: todo.id }}
@@ -20,7 +20,7 @@
 					onchange={(e) => tasks.mark(todo, e.currentTarget.checked)}
 				/>
 				<p class="flex-1 overflow-auto break-words">{todo.description}</p>
-				<button class="p-2" onclick={() => tasks.remove(todo)}></button>
+				<button aria-label="Delete task" class="p-2" onclick={() => tasks.remove(todo)}></button>
 			</label>
 		</li>
 	{/each}
