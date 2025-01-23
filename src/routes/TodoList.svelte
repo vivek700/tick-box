@@ -2,9 +2,7 @@
 	import { flip } from 'svelte/animate';
 	import { send, receive } from '$lib/transition';
 
-	export let tasks;
-
-	export let done;
+	let { tasks, done } = $props();
 </script>
 
 <ul>
@@ -19,10 +17,10 @@
 				<input
 					type="checkbox"
 					checked={todo.done}
-					on:change={(e) => tasks.mark(todo, e.currentTarget.checked)}
+					onchange={(e) => tasks.mark(todo, e.currentTarget.checked)}
 				/>
 				<p class="flex-1 overflow-auto break-words">{todo.description}</p>
-				<button class="p-2" on:click={() => tasks.remove(todo)}></button>
+				<button class="p-2" onclick={() => tasks.remove(todo)}></button>
 			</label>
 		</li>
 	{/each}

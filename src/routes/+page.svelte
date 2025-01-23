@@ -6,7 +6,7 @@
 	function focusOnMount(node: HTMLElement) {
 		node.focus();
 	}
-	let tasks: todoObject[] = [];
+	let tasks: todoObject[] = $state([]);
 
 	function getLocalStorageData() {
 		console.log('mounted');
@@ -25,8 +25,7 @@
 
 	onMount(getLocalStorageData);
 
-	let todos: ReturnType<typeof createTodoStore>;
-	$: todos = createTodoStore(tasks);
+	let todos: ReturnType<typeof createTodoStore> = $derived(createTodoStore(tasks));
 </script>
 
 <section class=" mt-7 md:w-8/12 w-11/12 mx-auto flex justify-center">
@@ -38,7 +37,7 @@
 			id="task"
 			name="task"
 			placeholder="What needs to be done?"
-			on:keydown={(e) => {
+			onkeydown={(e) => {
 				if (e.key !== 'Enter') return;
 				todos.add(e.currentTarget.value);
 				e.currentTarget.value = '';
