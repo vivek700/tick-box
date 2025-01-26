@@ -2,14 +2,24 @@
 	import { createTodoStore, type todoObject } from '$lib/todos';
 	import { onMount } from 'svelte';
 	import TodoList from './TodoList.svelte';
+	import { error } from '@sveltejs/kit';
 
 	function focusOnMount(node: HTMLElement) {
 		node.focus();
 	}
 	let tasks: todoObject[] = $state([]);
 
+	onMount(async () => {
+		const res = await fetch('http://localhost:8080/tasks', {
+			credentials: 'include'
+		});
+		const data = await res.json();
+		if (data) {
+			console.log(data);
+		}
+	});
+
 	function getLocalStorageData() {
-		console.log('mounted');
 		const rawData = localStorage.getItem('todos');
 		if (!rawData) {
 			tasks = [{ done: false, description: "Let's do something meaningful today." }];
@@ -32,7 +42,7 @@
 	<section class="w-full max-w-4xl">
 		<input
 			use:focusOnMount
-			class="text-xl p-3 rounded bg-gray-900 border border-gray-600 w-full outline-1 outline-gray-300 text-gray-200 focus:border-transparent"
+			class="text-xl p-3 rounded bg-black/35 border border-pink-300 w-full outline-1 outline-gray-300 text-gray-200 focus:border-transparent"
 			type="text"
 			id="task"
 			name="task"
@@ -58,6 +68,6 @@
 
 <style lang="postcss">
 	:global(html) {
-		background-color: rgb(17, 24, 39);
+		background-color: hsl(0, 0%, 11%);
 	}
 </style>

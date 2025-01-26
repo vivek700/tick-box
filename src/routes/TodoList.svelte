@@ -13,11 +13,12 @@
 			out:send={{ key: todo.id }}
 			animate:flip={{ duration: 200 }}
 		>
-			<label class="bg-slate-800/35 my-2 w-full p-4 rounded flex items-center gap-3">
+			<label class="bg-black/25 my-2 w-full p-4 rounded flex items-center gap-3">
 				<input
 					type="checkbox"
 					checked={todo.done}
 					onchange={(e) => tasks.mark(todo, e.currentTarget.checked)}
+					class="accent-pink-500"
 				/>
 				<p class="flex-1 overflow-auto break-words">{todo.description}</p>
 				<button aria-label="Delete task" class="p-2" onclick={() => tasks.remove(todo)}></button>

@@ -27,6 +27,11 @@ export function createTodoStore(initial: taskObject[]) {
         }
     );
 
+    // const createTask = () => {
+
+    // }
+
+
     const { subscribe, update } = writable<todoObject[]>(todos);
 
     return {
@@ -38,6 +43,7 @@ export function createTodoStore(initial: taskObject[]) {
                 description
             };
             update(($todos) => {
+
                 saveToLocalStorage([...$todos, todo]);
                 return [...$todos, todo];
             });
