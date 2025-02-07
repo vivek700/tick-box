@@ -2,7 +2,7 @@
 	import { createTodoStore, type todoObject } from '$lib/todos';
 	import { onMount } from 'svelte';
 	import TodoList from './TodoList.svelte';
-	import { error } from '@sveltejs/kit';
+	import { PUBLIC_BASE_URL } from '$env/static/public';
 
 	function focusOnMount(node: HTMLElement) {
 		node.focus();
@@ -10,31 +10,32 @@
 	let tasks: todoObject[] = $state([]);
 
 	onMount(async () => {
-		const res = await fetch('http://localhost:8080/tasks', {
+		const res = await fetch(`${PUBLIC_BASE_URL}/tasks`, {
 			credentials: 'include'
 		});
 		const data = await res.json();
 		if (data) {
 			console.log(data);
+			tasks = data.data;
 		}
 	});
+	$inspect(tasks);
 
-	function getLocalStorageData() {
-		const rawData = localStorage.getItem('todos');
-		if (!rawData) {
-			tasks = [{ done: false, description: "Let's do something meaningful today." }];
-			localStorage.setItem('todos', JSON.stringify(tasks));
-			return;
-		}
-		tasks = JSON.parse(rawData);
-		if (tasks.length === 0) {
-			tasks = [{ done: false, description: "Let's do something meaningful today." }];
-			localStorage.setItem('todos', JSON.stringify(tasks));
-		}
-	}
-
-	onMount(getLocalStorageData);
-
+	//function getLocalStorageData() {
+	//	const rawData = localStorage.getItem('todos');
+	//	if (!rawData) {
+	//		tasks = [{ done: false, description: "Let's do something meaningful today." }];
+	//	localStorage.setItem('todos', JSON.stringify(tasks));
+	//		return;
+	//	}
+	//	tasks = JSON.parse(rawData);
+	//	if (tasks.length === 0) {
+	//		tasks = [{ done: false, description: "Let's do something meaningful today." }];
+	//		localStorage.setItem('todos', JSON.stringify(tasks));
+	//	}
+	//}
+	//onMount(getLocalStorageData);
+	//
 	let todos: ReturnType<typeof createTodoStore> = $derived(createTodoStore(tasks));
 </script>
 
