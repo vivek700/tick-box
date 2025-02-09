@@ -14,12 +14,13 @@
 			credentials: 'include'
 		});
 		const data = await res.json();
-		if (data) {
+		if (data.data) {
 			console.log(data);
 			tasks = data.data;
+		} else {
+			tasks = [{ Status: false, Description: "Let's do something meaningful today." }];
 		}
 	});
-	$inspect(tasks);
 
 	//function getLocalStorageData() {
 	//	const rawData = localStorage.getItem('todos');

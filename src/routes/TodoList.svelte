@@ -6,11 +6,11 @@
 </script>
 
 <ul>
-	{#each $tasks.filter((todo: any) => todo.Status == done) as todo (todo.id)}
+	{#each $tasks?.filter((todo: any) => todo.Status == done) as todo (todo.ID)}
 		<li
 			class:done
-			in:receive={{ key: todo.id }}
-			out:send={{ key: todo.id }}
+			in:receive={{ key: todo.ID }}
+			out:send={{ key: todo.ID }}
 			animate:flip={{ duration: 200 }}
 		>
 			<label class="bg-black/25 my-2 w-full p-4 rounded flex items-center gap-3">
