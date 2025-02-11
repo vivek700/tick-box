@@ -18,7 +18,7 @@
 			console.log(data);
 			tasks = data.data;
 		} else {
-			tasks = [{ Status: false, Description: "Let's do something meaningful today." }];
+			tasks = [{ ID: 0, Status: false, Description: "Let's do something meaningful today." }];
 		}
 	});
 

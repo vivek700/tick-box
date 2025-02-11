@@ -1,55 +1,31 @@
-import { PUBLIC_BASE_URL } from '$env/static/public';
 import { writable } from 'svelte/store';
-
-type taskObject = {
+import { createTask, deleteTask } from './utils';
+//
+//type taskObject = {
+//    ID: number;
+//    Status: boolean;
+//    Description: string;
+//    UserID: number
+//};
+//
+export type todoObject = {
     ID: number;
     Status: boolean;
     Description: string;
-    UserID: number
 };
 
-export type todoObject = {
-    ID?: number;
-    Status: boolean;
-    Description: string;
-    UserID: number;
-};
+export function createTodoStore(initial: todoObject[]) {
 
-export function createTodoStore(initial: taskObject[]) {
-    let uid = 1;
-
-    //function saveToLocalStorage(todos: todoObject[]) {
-    //    localStorage.setItem('todos', JSON.stringify(todos));
-    //}
     const todos: todoObject[] = initial?.map(
-        ({ ID, UserID, Status, Description }: { ID: number; UserID: number; Status: boolean; Description: string }) => {
+        ({ ID, Status, Description }:
+            { ID: number; Status: boolean; Description: string }) => {
             return {
                 ID,
                 Status,
                 Description,
-                UserID
             };
         }
     );
-
-    const createTask = async (des: string) => {
-
-        const res = await fetch(`${PUBLIC_BASE_URL}/tasks`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            credentials: 'include',
-            body: JSON.stringify({
-                Description: des
-            })
-        })
-        const data = await res.json()
-        console.log(data)
-        return data.task
-
-    }
-
 
     const { subscribe, update } = writable<todoObject[]>(todos);
 
@@ -62,10 +38,9 @@ export function createTodoStore(initial: taskObject[]) {
                 ID: task.ID,
                 Status: task.Status,
                 Description: task.Description,
-                UserID: task.UserID
             };
             update(($todos) => {
-                if ($todos.length === 1) {
+                if ($todos[0].ID === 0) {
                     return [todo]
                 } else {
                     $todos.push(todo)
@@ -73,11 +48,18 @@ export function createTodoStore(initial: taskObject[]) {
                 }
             });
         },
-        remove: (todo: todoObject) => {
+        remove: async (todo: todoObject) => {
             update(($todos) => {
                 const filterdArray = $todos.filter((t) => t !== todo);
                 return filterdArray;
             });
+            const res = await deleteTask(todo.ID)
+            if (!res.ok) {
+                update(($todos) => {
+                    $todos.push(todo)
+                    return $todos
+                })
+            }
         },
         mark: (todo: todoObject, Status: boolean) => {
             update(($todos) => {
