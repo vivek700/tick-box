@@ -1,13 +1,6 @@
 import { writable } from 'svelte/store';
-import { createTask, deleteTask } from './utils';
-//
-//type taskObject = {
-//    ID: number;
-//    Status: boolean;
-//    Description: string;
-//    UserID: number
-//};
-//
+import { createTask, deleteTask, updateTask } from './utils';
+
 export type todoObject = {
     ID: number;
     Status: boolean;
@@ -61,11 +54,14 @@ export function createTodoStore(initial: todoObject[]) {
                 })
             }
         },
-        mark: (todo: todoObject, Status: boolean) => {
+        mark: async (todo: todoObject, Status: boolean) => {
+            const res = await updateTask(todo.ID, Status)
+            if (!res.ok) return
             update(($todos) => {
                 const tempArray = [...$todos.filter((t) => t !== todo), { ...todo, Status }];
                 return tempArray;
             });
+
         }
     };
 }

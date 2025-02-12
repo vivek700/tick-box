@@ -26,5 +26,15 @@ export async function deleteTask(id: number) {
     return res
 }
 
-
+export async function updateTask(id: number, status: boolean) {
+    const res = await fetch(`${PUBLIC_BASE_URL}/tasks`, {
+        method: 'PUT',
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ id, status })
+    })
+    return res
+}
 

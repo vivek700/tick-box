@@ -15,28 +15,11 @@
 		});
 		const data = await res.json();
 		if (data.data) {
-			console.log(data);
 			tasks = data.data;
 		} else {
 			tasks = [{ ID: 0, Status: false, Description: "Let's do something meaningful today." }];
 		}
 	});
-
-	//function getLocalStorageData() {
-	//	const rawData = localStorage.getItem('todos');
-	//	if (!rawData) {
-	//		tasks = [{ done: false, description: "Let's do something meaningful today." }];
-	//	localStorage.setItem('todos', JSON.stringify(tasks));
-	//		return;
-	//	}
-	//	tasks = JSON.parse(rawData);
-	//	if (tasks.length === 0) {
-	//		tasks = [{ done: false, description: "Let's do something meaningful today." }];
-	//		localStorage.setItem('todos', JSON.stringify(tasks));
-	//	}
-	//}
-	//onMount(getLocalStorageData);
-	//
 	let todos: ReturnType<typeof createTodoStore> = $derived(createTodoStore(tasks));
 </script>
 
