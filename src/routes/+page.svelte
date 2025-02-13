@@ -27,7 +27,8 @@
 	<section class="w-full max-w-4xl">
 		<input
 			use:focusOnMount
-			class="text-xl p-3 rounded bg-black/35 border border-pink-300 w-full outline-1 outline-gray-300 text-gray-200 focus:border-transparent"
+			class="text-xl p-3 bg-black/50 w-full text-gray-200 border-b-2 border-gray-500 rounded-t-md
+			focus:border-pink-400 focus:outline-hidden"
 			type="text"
 			id="task"
 			name="task"
