@@ -18,10 +18,14 @@
 					type="checkbox"
 					checked={todo.Status}
 					onchange={(e) => tasks.mark(todo, e.currentTarget.checked)}
-					class="accent-pink-500"
+					class="accent-pink-500 cursor-pointer"
 				/>
 				<p class="flex-1 overflow-auto break-words">{todo.Description}</p>
-				<button aria-label="Delete task" class="p-2" onclick={() => tasks.remove(todo)}></button>
+				<button
+					aria-label="Delete task"
+					class="p-2 cursor-pointer"
+					onclick={() => tasks.remove(todo)}
+				></button>
 			</label>
 		</li>
 	{/each}

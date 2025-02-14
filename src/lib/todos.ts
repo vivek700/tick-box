@@ -55,12 +55,30 @@ export function createTodoStore(initial: todoObject[]) {
             }
         },
         mark: async (todo: todoObject, Status: boolean) => {
-            const res = await updateTask(todo.ID, Status)
-            if (!res.ok) return
             update(($todos) => {
-                const tempArray = [...$todos.filter((t) => t !== todo), { ...todo, Status }];
-                return tempArray;
+                const temp = $todos.map((t) => {
+                    if (t.ID === todo.ID) {
+                        t.Status = !t.Status
+                    }
+                    return t
+                })
+                return temp
+
             });
+            const res = await updateTask(todo.ID, Status)
+            if (!res.ok) {
+                update(($todos) => {
+                    const temp = $todos.map((t) => {
+                        if (t.ID === todo.ID) {
+                            t.Status = !t.Status
+                        }
+                        return t
+
+                    })
+                    return temp
+                })
+            }
+
 
         }
     };
