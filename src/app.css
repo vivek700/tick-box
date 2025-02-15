@@ -1,8 +1,29 @@
 @import "tailwindcss";
 
-#share-opt:popover-open {
+.share-button {
+	anchor-name: --share-btn;
+}
+
+.share-opt {
+	position-anchor: --share-btn;
+	position: absolute;
+	margin: 0;
+	inset: auto;
+	top: anchor(bottom);
+	right: anchor(right);
+	width: 200px;
+	height: 200px;
+	margin-block-start: 8px;
+	transition: display .5s, opacity .5s;
+	transition-behavior: allow-discrete;
+	opacity: 0;
+}
+
+.share-opt:popover-open {
 	display: grid;
-	position: fixed;
-	background-color: red;
-	inset: 0;
+	opacity: 1;
+
+	@starting-style {
+		opacity: 0;
+	}
 }

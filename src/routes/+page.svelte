@@ -28,12 +28,12 @@
 		<button
 			aria-label="Open share options"
 			popovertarget="share-opt"
-			class="text-white bg-pink-800 p-1 rounded-md mb-5 float-end cursor-pointer"
+			class="share-button text-white p-1 bg-pink-800 rounded-md mb-5 float-end cursor-pointer hover:bg-pink-900 focus:bg-pink-900"
 		>
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
-				width="24"
-				height="24"
+				width="20"
+				height="20"
 				viewBox="0 0 24 24"
 				fill="none"
 				stroke="currentColor"
@@ -79,7 +79,8 @@
 		</section>
 	</section>
 </section>
-<section popover id="share-opt">
+
+<section popover id="share-opt" class="share-opt rounded-md">
 	<h1>vivek</h1>
 </section>
 
