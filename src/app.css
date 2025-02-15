@@ -11,15 +11,15 @@
 	inset: auto;
 	top: anchor(bottom);
 	right: anchor(right);
-	width: 200px;
-	height: 200px;
 	margin-block-start: 8px;
 	transition: display .5s, opacity .5s;
 	transition-behavior: allow-discrete;
 	opacity: 0;
+	place-items: center;
 }
 
 .share-opt:popover-open {
+
 	display: grid;
 	opacity: 1;
 

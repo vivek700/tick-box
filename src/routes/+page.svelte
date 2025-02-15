@@ -3,6 +3,10 @@
 	import { onMount } from 'svelte';
 	import TodoList from './TodoList.svelte';
 	import { PUBLIC_BASE_URL } from '$env/static/public';
+	import type { PageProps } from './$types';
+	import { page } from '$app/state';
+	let { data }: PageProps = $props();
+	import ORCode from 'qrcode';
 
 	function focusOnMount(node: HTMLElement) {
 		node.focus();
@@ -21,11 +25,31 @@
 		}
 	});
 	let todos: ReturnType<typeof createTodoStore> = $derived(createTodoStore(tasks));
+
+	const shareUrl = `${page.url.origin}/connect/${data?.access_code}`;
+	let qrCanvas;
+	async function generateQrCode() {
+		if (qrCanvas) {
+			await ORCode.toCanvas(qrCanvas, shareUrl, {
+				width: 200,
+				margin: 2
+			});
+		}
+	}
+	const copyLink = async () => {
+		try {
+			await navigator.clipboard.writeText(shareUrl);
+			alert('Link copied to clipboard!');
+		} catch (err) {
+			console.log('Failed to copy: ', err);
+		}
+	};
 </script>
 
 <section class=" mt-7 md:w-8/12 w-11/12 mx-auto flex justify-center">
 	<section class="w-full max-w-4xl">
 		<button
+			onmousedown={generateQrCode}
 			aria-label="Open share options"
 			popovertarget="share-opt"
 			class="share-button text-white p-1 bg-pink-800 rounded-md mb-5 float-end cursor-pointer hover:bg-pink-900 focus:bg-pink-900"
@@ -80,8 +104,20 @@
 	</section>
 </section>
 
-<section popover id="share-opt" class="share-opt rounded-md">
-	<h1>vivek</h1>
+<section popover id="share-opt" class="share-opt rounded-md px-4 pt-5 bg-[#57334d] text-white">
+	<input
+		type="text"
+		class="w-full outline-hidden border py-2 px-1 rounded-md"
+		readonly
+		value={`${page.url.origin}/connect/${data?.access_code}`}
+	/>
+	<button class="bg-pink-500 w-1/3 rounded-md py-1 mt-2 cursor-pointer" onmousedown={copyLink}
+		>Copy Link</button
+	>
+	<section class="py-4 flex gap-y-2 flex-col items-center">
+		<canvas bind:this={qrCanvas}></canvas>
+		<p>Scan this QR code on another device</p>
+	</section>
 </section>
 
 <style lang="postcss">
