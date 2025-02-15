@@ -1,1 +1,8 @@
 @import "tailwindcss";
+
+#share-opt:popover-open {
+	display: grid;
+	position: fixed;
+	background-color: red;
+	inset: 0;
+}
