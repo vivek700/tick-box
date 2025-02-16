@@ -15,6 +15,7 @@
 
 	let clicked: boolean = $state(false);
 	onMount(async () => {
+		console.log(PUBLIC_BASE_URL);
 		const res = await fetch(`${PUBLIC_BASE_URL}/tasks`, {
 			credentials: 'include'
 		});
