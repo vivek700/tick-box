@@ -5,14 +5,15 @@
 	import { PUBLIC_BASE_URL } from '$env/static/public';
 	import type { PageProps } from './$types';
 	import { page } from '$app/state';
-	let { data }: PageProps = $props();
 	import ORCode from 'qrcode';
 
 	function focusOnMount(node: HTMLElement) {
 		node.focus();
 	}
 	let tasks: todoObject[] = $state([]);
+	let { data }: PageProps = $props();
 
+	let clicked: boolean = $state(false);
 	onMount(async () => {
 		const res = await fetch(`${PUBLIC_BASE_URL}/tasks`, {
 			credentials: 'include'
@@ -27,7 +28,7 @@
 	let todos: ReturnType<typeof createTodoStore> = $derived(createTodoStore(tasks));
 
 	const shareUrl = `${page.url.origin}/connect/${data?.access_code}`;
-	let qrCanvas;
+	let qrCanvas: HTMLCanvasElement;
 	async function generateQrCode() {
 		if (qrCanvas) {
 			await ORCode.toCanvas(qrCanvas, shareUrl, {
@@ -39,7 +40,7 @@
 	const copyLink = async () => {
 		try {
 			await navigator.clipboard.writeText(shareUrl);
-			alert('Link copied to clipboard!');
+			clicked = true;
 		} catch (err) {
 			console.log('Failed to copy: ', err);
 		}
@@ -104,19 +105,28 @@
 	</section>
 </section>
 
-<section popover id="share-opt" class="share-opt rounded-md px-4 pt-5 bg-[#57334d] text-white">
+<section popover id="share-opt" class="share-opt rounded-md px-4 py-3 bg-[#57334d] text-white">
+	<h2>Sync with Another Device</h2>
+	<p class="pt-2">Share this link</p>
 	<input
 		type="text"
 		class="w-full outline-hidden border py-2 px-1 rounded-md"
 		readonly
 		value={`${page.url.origin}/connect/${data?.access_code}`}
 	/>
-	<button class="bg-pink-500 w-1/3 rounded-md py-1 mt-2 cursor-pointer" onmousedown={copyLink}
-		>Copy Link</button
+	<button
+		class="bg-pink-500 w-1/3 rounded-md py-1 mt-2 cursor-pointer hover:bg-pink-600 focus:bg-pink-600"
+		onmousedown={copyLink}
 	>
+		{#if clicked}
+			copied
+		{:else}
+			Copy Link
+		{/if}
+	</button>
 	<section class="py-4 flex gap-y-2 flex-col items-center">
+		<p class="text-center">Or Scan this OR code on another device</p>
 		<canvas bind:this={qrCanvas}></canvas>
-		<p>Scan this QR code on another device</p>
 	</section>
 </section>
 
