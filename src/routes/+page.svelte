@@ -11,15 +11,15 @@
 		node.focus();
 	}
 	let tasks: todoObject[] = $state([]);
-	let { data }: PageProps = $props();
+	let access_code: string = $state('');
 
 	let clicked: boolean = $state(false);
 	onMount(async () => {
-		console.log(PUBLIC_BASE_URL);
 		const res = await fetch(`${PUBLIC_BASE_URL}/tasks`, {
 			credentials: 'include'
 		});
 		const data = await res.json();
+		access_code = data?.AccessCode;
 		if (data.data) {
 			tasks = data.data;
 		} else {
@@ -28,7 +28,7 @@
 	});
 	let todos: ReturnType<typeof createTodoStore> = $derived(createTodoStore(tasks));
 
-	const shareUrl = `${page.url.origin}/connect/${data?.access_code}`;
+	const shareUrl = $derived(`${page.url.origin}/connect/${access_code}`);
 	let qrCanvas: HTMLCanvasElement;
 	async function generateQrCode() {
 		if (qrCanvas) {
@@ -113,7 +113,7 @@
 		type="text"
 		class="w-full outline-hidden border py-2 px-1 rounded-md"
 		readonly
-		value={`${page.url.origin}/connect/${data?.access_code}`}
+		value={shareUrl}
 	/>
 	<button
 		class="bg-pink-500 w-1/3 rounded-md py-1 mt-2 cursor-pointer hover:bg-pink-600 focus:bg-pink-600"
