@@ -6,6 +6,7 @@
 	import type { PageProps } from './$types';
 	import { page } from '$app/state';
 	import ORCode from 'qrcode';
+	import Todolistskeleton from './Todolistskeleton.svelte';
 
 	function focusOnMount(node: HTMLElement) {
 		node.focus();
@@ -96,11 +97,19 @@
 		<section class=" text-gray-300 grid md:grid-cols-2 gap-4">
 			<section>
 				<h2 class="my-5 text-3xl text-gray-200">todo</h2>
-				<TodoList tasks={todos} done={false} />
+				{#if tasks.length > 0}
+					<TodoList tasks={todos} done={false} />
+				{:else}
+					<Todolistskeleton />
+				{/if}
 			</section>
 			<section>
 				<h2 class="my-5 text-3xl text-gray-200">done</h2>
-				<TodoList tasks={todos} done={true} />
+				{#if tasks.length > 0}
+					<TodoList tasks={todos} done={true} />
+				{:else}
+					<Todolistskeleton />
+				{/if}
 			</section>
 		</section>
 	</section>

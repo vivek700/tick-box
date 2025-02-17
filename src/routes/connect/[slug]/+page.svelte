@@ -21,3 +21,5 @@
 		}
 	});
 </script>
+
+<h2 class="text-pink-500">Redirecting...</h2>

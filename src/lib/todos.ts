@@ -25,7 +25,6 @@ export function createTodoStore(initial: todoObject[]) {
     return {
         subscribe,
         add: async (Description: string) => {
-
             const task: todoObject = await createTask(Description)
             const todo: todoObject = {
                 ID: task.ID,

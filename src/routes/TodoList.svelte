@@ -1,12 +1,13 @@
 <script lang="ts">
 	import { flip } from 'svelte/animate';
 	import { send, receive } from '$lib/transition';
+	import type { todoObject } from '$lib/todos';
 
 	let { tasks, done } = $props();
 </script>
 
 <ul>
-	{#each $tasks?.filter((todo: any) => todo.Status == done) as todo (todo.ID)}
+	{#each $tasks?.filter((todo: todoObject) => todo.Status == done) as todo (todo.ID)}
 		<li
 			class:done
 			in:receive={{ key: todo.ID }}
