@@ -94,24 +94,20 @@
 				e.currentTarget.value = '';
 			}}
 		/>
-		<section class=" text-gray-300 grid md:grid-cols-2 gap-4">
-			<section>
-				<h2 class="my-5 text-3xl text-gray-200">todo</h2>
-				{#if tasks.length > 0}
+		{#if tasks.length > 0}
+			<section class=" text-gray-300 grid md:grid-cols-2 gap-4">
+				<section>
+					<h2 class="my-5 text-3xl text-gray-200">todo</h2>
 					<TodoList tasks={todos} done={false} />
-				{:else}
-					<Todolistskeleton />
-				{/if}
-			</section>
-			<section>
-				<h2 class="my-5 text-3xl text-gray-200">done</h2>
-				{#if tasks.length > 0}
+				</section>
+				<section>
+					<h2 class="my-5 text-3xl text-gray-200">done</h2>
 					<TodoList tasks={todos} done={true} />
-				{:else}
-					<Todolistskeleton />
-				{/if}
+				</section>
 			</section>
-		</section>
+		{:else}
+			<Todolistskeleton />
+		{/if}
 	</section>
 </section>
 
